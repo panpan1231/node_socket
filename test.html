@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Chatroom</title>
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="msg"></div>
+ 
+    <script>
+           var socket = io("http://localhost:3000/",{transports:['websocket']});
+        // 當觸發連線建立事件
+        // 發送 greet 事件給伺服器
+        let count =0
+        socket.on("connect", function () {
+            socket.emit("greet");
+        });
+ 
+        // 當收到伺服器回傳到 greet 事件
+        // 將內容轉到 div 中呈現
+        socket.on("greet", function (msg) {
+            count+=1
+            console.log(count)
+            document.getElementById("msg").innerText = msg;
+        });
+        // setInterval(()=>{
+        //     socket.emit("greet")
+        // },3000)
+        // socket.emit("greet");
+
+    </script>
+</body>
+</html>
